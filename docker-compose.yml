@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres
+    container_name: ${POSTGRES_HOST}
+    restart: always
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    expose:
+      - 5433
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - pgdata:/data
+  # db_push:
+  #   build: .
+  #   container_name: db_push
+  #   env_file:
+  #     - .env
+  #   command: npx prisma db push
+  #   volumes:
+  #     - .:/usr/xestor.user
+  #   depends_on:
+  #     - postgres
+
+  # xestor.user:
+  #   build: .
+  #   container_name: xestor.user
+  #   env_file:
+  #     - .env
+  #   command: npm run dev
+  #   ports:
+  #     - ${API_PORT}:${API_PORT}
+  #   volumes:
+  #     - .:/usr/xestor.user
+  #   depends_on:
+  #     - postgres
+  #     - db_push
+
+volumes:
+  pgdata:
+    driver: local

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { env } from 'process'
+
 import { CustomError } from '../../../../errors/CustomError';
 import { GenerateTokenProvider } from "../../../../providers/GenerateTokenProvider";
 import { IBlackListRepository } from '../../../blackList/repositories/IBlackListRepository';
@@ -7,7 +9,7 @@ export class RefreshTokenUseCase {
 	constructor(private generateTokenProvider: GenerateTokenProvider, private backlistRepository: IBlackListRepository) { }
 
 	async execute(userEmail: string, tokenToInvalid: string) {
-		const response = await axios.get(`http://localhost:3000/users/${userEmail}`)
+		const response = await axios.get(`${env.USER_BASE_URL}/users/${userEmail}`)
 			.catch((error) => {
 				throw new CustomError(error.response.status, error.response.data.error);
 			});

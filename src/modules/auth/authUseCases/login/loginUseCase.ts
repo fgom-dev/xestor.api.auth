@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { env } from 'process'
+
 import { CustomError } from '../../../../errors/CustomError'
 import { GenerateTokenProvider, IUser } from '../../../../providers/GenerateTokenProvider'
 
@@ -16,7 +18,7 @@ export class LoginUseCase {
 	constructor(private generateTokenProvider: GenerateTokenProvider) { }
 
 	async execute({ email, password }: ILogin) {
-		const response = await axios.post('http://localhost:3000/users/validate', {
+		const response = await axios.post(`${env.USER_BASE_URL}/users/validate`, {
 			email,
 			password
 		}).catch((error) => {
